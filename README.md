@@ -38,7 +38,7 @@ __________________________________________
 Alcohol since its conception in China 7000 BCe using fermented rice, honey and hawthorn fruit, has been both an advera . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
 __________________________________________
 
-### [Cardiovascular Disease Prediction Algorithm]()
+### [Cardiovascular Disease Prediction Algorithm](https://github.com/d-pujara/my_portfolio/tree/main/cardiovascular_disease_prediction)
 
 
 
