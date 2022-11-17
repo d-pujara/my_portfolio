@@ -15,10 +15,10 @@ With climate change being a widespread global challenge, it has become increasin
 
 This sentiment analysis model breaks down the individual words that lie within a tweet using tokenization, stemming, and vectorizatioon methoods. The developed model than assimilates words into vectoried quantities that give weights in phrases that lead to a specific sentiment. 
 
--1 : Climate change is not a man-made phenomenon and is a hoax. 
-0 : Neutral opinion 
-1: Climate change is a man-made phenomenon and is very real.
-2: Factual news story
+- -1 : Climate change is not a man-made phenomenon and is a hoax. 
+- 0 : Neutral opinion 
+- 1: Climate change is a man-made phenomenon and is very real.
+- 2: Factual news story
 
 Model has been trained with 74% accuracy. 
 
