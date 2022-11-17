@@ -1,4 +1,4 @@
-# Portfolio Projects
+# Portfolio 
 
 This repository contains a coollection of a few machine learning and deep learning projects I have developed. Projects have all been developed using Python, Node.js and the deployed projects were developed using Flask and Heroku. Tech kits used -- tensorFlow, sci-kit, pytorch, opencv. 
 
