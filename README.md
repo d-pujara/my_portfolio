@@ -2,6 +2,11 @@
 
 This repository contains a coollection of a few machine learning and deep learning projects I have developed. Projects have all been developed using Python and the deployed projects were developed using Flask and Heroku. 
 
+Feel free to contact me at [dishantpujara@gmail.com](dishantpujara@gmail.com). 
+
+[My Website]()
+
+[Resume]()
 
 ## Summary 
 __________________________________________
@@ -16,7 +21,7 @@ This sentiment analysis model breaks down the individual words that lie within a
 1: Climate change is a man-made phenomenon and is very real.
 2: Factual news story
 
-Model has been trained with 74% accuracy which is not 
+Model has been trained with 74% accuracy. 
 
 
 [Kaggle Link](https://www.kaggle.com/datasets/edqian/twitter-climate-change-sentiment-dataset)
@@ -25,13 +30,18 @@ __________________________________________
 
 ### [Face Mask Detection using ResNet CNN]() 
 
+COVID-19 teetered on the borders of 
+
 __________________________________________
 
 ### [Liver Cirrhosis Predictive Algorithm]()
 
+Alcohol since its conception in China 7000 BCe using fermented rice, honey and hawthorn fruit, has been both an advera . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
 __________________________________________
 
 ### [Cardiovascular Disease Prediction Algorithm]()
+
+
 
 
 
