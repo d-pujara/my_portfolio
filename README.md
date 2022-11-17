@@ -27,7 +27,7 @@ Model has been trained with 74% accuracy.
 
 __________________________________________
 
-### [Face Mask Detection using ResNet CNN]() 
+### [Face Mask Detection using ResNet CNN](https://github.com/d-pujara/my_portfolio/tree/main/face_mask_realtime_detector) 
 
 COVID-19 teetered on the borders of 
 
