@@ -5,7 +5,7 @@ This repository contains a coollection of a few machine learning and deep learni
 
 ## Summary 
 __________________________________________
- ### [Tweets Climate Change Sentiment Analysis]()
+ ### [Tweets Climate Change Sentiment Analysis](https://github.com/d-pujara/my_portfolio/tree/main/twitter_sentiment_analysis)
  
 With climate change being a widespread global challenge, it has become increasingly important to filter information that is deseminated to the wider public for accuracy to avoid any disinformation. For many, Twitter has become a priamry outlet for news and tweets with misinformation on climate change not being a man-made phenomenon can quickly spread however fragmented and inconsitent it may be. 
 
