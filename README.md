@@ -38,8 +38,8 @@ Liver Cirrhosis . An adverse impact of excessive alcohol consumption can be the 
 This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
 
 | Feature Variable | Description | Average Values | 
-| --- | --- |
-| `N-Days` | List all *new or modified* files |
+| --- | --- | --- |
+| `N-Days` | List all *new or modified* files | |
 | `Status` |  |
 | `Drug` |  |
 | `Sex` | Male or Female |  |
