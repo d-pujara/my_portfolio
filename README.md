@@ -4,11 +4,10 @@ This repository contains a coollection of a few machine learning and deep learni
 
 Feel free to contact me at [dishantpujara@gmail.com](dishantpujara@gmail.com). 
 
-[My Website]()
+[My Website](http://127.0.0.1:5501/index.html)
 
-[Resume]()
+[Resume](https://drive.google.com/file/d/1JlLLRwF8fccoq8aaO-Qy4vQ834qKv6WM/view?usp=share_link)
 
-## Summary 
 __________________________________________
  ### [Tweets Climate Change Sentiment Analysis](https://github.com/d-pujara/my_portfolio/tree/main/twitter_sentiment_analysis)
  
