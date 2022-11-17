@@ -4,8 +4,6 @@ This repository contains a coollection of a few machine learning and deep learni
 
 Feel free to contact me at [dishantpujara@gmail.com](dishantpujara@gmail.com). 
 
-[My Website](http://127.0.0.1:5501/index.html)
-
 [Resume](https://drive.google.com/file/d/1JlLLRwF8fccoq8aaO-Qy4vQ834qKv6WM/view?usp=share_link)
 
 __________________________________________
@@ -27,19 +25,37 @@ Model has been trained with 74% accuracy.
 
 __________________________________________
 
-### [Face Mask Detection using ResNet CNN](https://github.com/d-pujara/my_portfolio/tree/main/face_mask_realtime_detector) 
+### [Face Mask Detection using 50-Layer MobileNet CNN](https://github.com/d-pujara/my_portfolio/tree/main/face_mask_realtime_detector) 
 
-COVID-19 teetered on the borders of 
+COVID-19 exposed 
 
 __________________________________________
 
 ### [Liver Cirrhosis Predictive Algorithm]()
 
-Alcohol since its conception in China 7000 BCe using fermented rice, honey and hawthorn fruit, has been both an advera . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
+Liver Cirrhosis . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. Having had family members who have been diagnosed with liver cirrhosis following decades of unhealthy levels of alcohol consumptioon, I believe that liver cirrhosis needs to be diagnosed as early as possible. 
+
+This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
+
+| Feature Variable | Description | Average Values | 
+| --- | --- |
+| `N-Days` | List all *new or modified* files |
+| `Status` |  |
+| `Drug` |  |
+| `Sex` | Male or Female |  |
+| `Ascites` | |  |
+| `Hepatomegaly` | |  |
+| `Spiders` | |  |
+
 __________________________________________
 
-### [Cardiovascular Disease Prediction Algorithm](https://github.com/d-pujara/my_portfolio/tree/main/cardiovascular_disease_prediction)
+### [Real Estate and Mortgage Expenses Analytics for Loan Demand Prediction ]()
 
+Banking institutions requires actionable insights into mortgage-backed securities, geographic business investment, and real estate analysis to make predictions on the demand for region-based loans. This hypothetical mortgage bank would like to identify potential monthly mortgage expenses for each region based on monthly family income and rental of the real estate. 
+
+The prediction model was trained using a multi-variate linear regression algorithm and can predict the potential demand in dollars amount of loan for each of the region in the USA. I have also created a dashboard to display the data using Tableau. 
+
+[Dashboard](https://public.tableau.com/app/profile/dishant.pujara/viz/RealEstateProject-1_16687205203490/boxplot?publish=yes)
 
 
 
