@@ -18,8 +18,7 @@ This sentiment analysis model breaks down the individual words that lie within a
 - 1: Climate change is a man-made phenomenon and is very real.
 - 2: Factual news story
 
-Model has been trained with 74% accuracy. 
-
+Model has been pre-trained using Logistic Regression, Decision Tree and K-Means with Logistic Regression prooviding the highest accuracy at 74%.
 
 [Link to Kaggle Dataset](https://www.kaggle.com/datasets/edqian/twitter-climate-change-sentiment-dataset)
 
@@ -27,15 +26,17 @@ __________________________________________
 
 ### [Face Mask Detection using 50-Layer MobileNet CNN](https://github.com/d-pujara/my_portfolio/tree/main/face_mask_realtime_detector) 
 
-COVID-19 exposed 
+COVID-19 exposed the effectiveness of mask-wearing as a tool to curb the spread of viral infections. Unfortunately, like many other issues, mask wearing quickly became a political statement and people grew weary of it's true efficacy and deliberately stopped wearing them. Businesses like hospitals and convenience stores among other locations of frequent group gatherings have the diffuclt task of monitoring indivduals with face masks on. 
+
+With the advance of ComputerVision technology, we can pair any camera with openCV and a image rendering CNN to depict in real time individuals with and without masks. To run the model, run the .ipynb file on any code platform and allow access to your devices camera. 
 
 __________________________________________
 
-### [Liver Cirrhosis Predictive Algorithm]()
+### [Liver Cirrhosis Predictive Tool](https://github.com/d-pujara/my_portfolio/tree/main/liver_cirrhosis_prediction)
 
 Liver Cirrhosis . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. Having had family members who have been diagnosed with liver cirrhosis following decades of unhealthy levels of alcohol consumptioon, I believe that liver cirrhosis needs to be diagnosed as early as possible. 
 
-This predictive model uses a random forest algorithm and takes the feature variables listed below and outputs a prediction for the patient's current stage of cirrhosis development.
+This predictive model uses a random forest algorithm and takes the feature variables listed below and outputs a prediction for the patient's current stage of liver disease development.
 
 | Featured Variables| Description of Correlation to LC |
 | --- | --- | 
@@ -56,7 +57,9 @@ This predictive model uses a random forest algorithm and takes the feature varia
 | `Tryglicerides` | Increased Levels of ALT/ATS (mg/dl) |  
 | `Platelets` | Decreased Levels of Platelet Count (mL/1000) |  
 | `Prothrombin` | Time of Prothrombin (s)  |  
-| `Stage` | Stage of Cirrhosis Development (1,2,3,4) // 4 being Cirrhosis |  
+| `Stage` | Stage of LD Development (1,2,3,4) // 4 being Cirrhosis |  
+
+Access the tool using this [link]().
 
 __________________________________________
 
