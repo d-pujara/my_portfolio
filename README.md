@@ -1,6 +1,6 @@
 # Portfolio Projects
 
-This repository contains a coollection of a few machine learning and deep learning projects I have developed. Projects have all been developed using Python and the deployed projects were developed using Flask and Heroku. 
+This repository contains a coollection of a few machine learning and deep learning projects I have developed. Projects have all been developed using Python, Node.js and the deployed projects were developed using Flask and Heroku. Tech kits used -- tensorFlow, sci-kit, pytorch, opencv. 
 
 Feel free to contact me at [dishantpujara@gmail.com](dishantpujara@gmail.com). 
 
@@ -23,7 +23,7 @@ This sentiment analysis model breaks down the individual words that lie within a
 Model has been trained with 74% accuracy. 
 
 
-[Kaggle Link](https://www.kaggle.com/datasets/edqian/twitter-climate-change-sentiment-dataset)
+[Link to Kaggle Dataset](https://www.kaggle.com/datasets/edqian/twitter-climate-change-sentiment-dataset)
 
 __________________________________________
 
