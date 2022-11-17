@@ -1,0 +1,395 @@
+#IMPORT PACKAGES
+
+import numpy as np
+import pandas as pd
+from os import makedirs
+from os import path
+import math
+from scipy.sparse import csr_matrix
+
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+
+import nltk.downloader
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
+from collections import Counter
+from nltk.util import ngrams
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+from pydataset import data
+from sklearn.ensemble import BaggingClassifier, ExtraTreesClassifier, RandomForestClassifier
+from sklearn.linear_model import RidgeClassifier
+from sklearn.svm import SVC
+from sklearn.tree import plot_tree, DecisionTreeClassifier
+
+import pickle
+import json
+#%%
+
+#%%
+df = pd.read_csv('twitter_sentiment_data.csv')
+#%%
+#SET UP LABEL DATAFRAME FOR FUTURE REFERENCE
+
+sentiment = [-1, 0, 1, 2]
+sentiment_label = ['Anti', 'Neutral', 'Pro', 'Factual']
+label_descriptions = ['The Tweet does not believe in man-made climate change',
+                      'The tweet neither refutes or affirms the beliefs of man-made climate change',
+                      'The tweet supports the belief that climate change is caused by human intervention',
+                      'The tweet is linked to factual news about climate change']
+
+df_labels = pd.DataFrame(list(zip(sentiment, sentiment_label, label_descriptions)), columns = ['Label','Name', 'Description'])
+#%%
+df.head()
+#%% md
+* **Data Description**: The data has a very simple structure with only 2 features including the tweet itself and the ID of the tweet. The sentiment column (target variable) shows the sentiment label assigned to the tweet based on the discretion of 3 reviewers.
+#%%
+df.info()
+df.shape
+#%%
+#PIE CHART OF SENTIMENT ANALYSIS
+
+plt.figure(figsize=(7,7))
+plt.pie(df.sentiment.value_counts().values, labels = df.sentiment.value_counts().index, autopct= '%2.1f%%', textprops = {'fontsize': 15})
+plt.title('Distribution of Sentiments from Provided Tweets',fontsize = 20)
+plt.tight_layout()
+plt.show()
+#%% md
+* **Pie chart shows the distribution of the data. A majority of the tweets indicate a support of man-made climate change. 10% of the total tweets did actively claim that climate change cannot be impacted by human activity.**
+#%%
+df_tweets = df['message']
+#%% md
+## Tokenization - Split Tweets into an Array of Words
+#%%
+def generateTokenizationArray(sentence_array):
+    '''
+    Create lower case array of words with no punctuatiion
+    :param sentences: array or series of tweets
+    :return: lower case array of words with no punctuation
+    '''
+    tokenizer = RegexpTokenizer(r'\w+')
+    tokenizedArray = []
+
+    for i in range(0, len(sentence_array)):
+
+        #sentences to be in lower case
+        sentence = sentence_array[i].lower()
+
+        #spliit sentence inito array of words with no punctuatiion
+        words = tokenizer.tokenize(sentence)
+
+        #Append word array to list
+        tokenizedArray.append(words)
+
+    return tokenizedArray
+#%%
+tokenizedLi = generateTokenizationArray(df_tweets)
+
+tokenizedLi
+#%% md
+## Stop Word Removal
+
+Stop words are words like "the", "an", "a", and "an." which do not add any significance values in the query search.
+#%%
+nltk.download('stopwords')
+
+def removeSW(tokenizedList):
+
+    stopWords = set(stopwords.words('english'))
+    shorterSentences = []
+
+    for sentence in tokenizedList:
+        shorterSentence = []
+        for word in sentence:
+            if word not in stopWords:
+
+                word = word.strip()
+
+                if (len(word) > 1 and word.isdigit() == False):
+                    shorterSentence.append(word)
+
+        shorterSentences.append(shorterSentence)
+    return shorterSentences
+
+    #Return: Array of words with no punctuation or stop words
+#%%
+tokenizedRemoveStopWord = removeSW(tokenizedLi)
+
+tokenizedRemoveStopWord = pd.Series(removeSW(tokenizedLi))
+
+tokenizedRemoveStopWord
+#%% md
+## Stemming
+
+Many words in the English language are time variations of a similar root word. Potentially, this means that the sentiment algorithm can be improved by accepting different words as long as they come from the same root word.
+#%%
+def stemming(sentenceArrays):
+
+    ps = PorterStemmer()
+    stemmedSentences = []
+
+    for sentenceArray in sentenceArrays:
+        stemmedArray = []
+        for word in sentenceArray:
+            stemmedArray.append(ps.stem(word))
+
+        delimeter = ' '
+        sentence = delimeter.join(stemmedArray)
+
+        stemmedSentences.append(sentence)
+    return stemmedSentences
+#%%
+stemmedLi = stemming(tokenizedRemoveStopWord)
+
+print(f"Sample sentence BEFORE stemming: \n{tokenizedRemoveStopWord[1]}")
+print(f"\nSample sentence AFTER stemming: \n{stemmedLi[1]}")
+#%% md
+The stemming process allows the algorithm to process words with thhe same root equally and not cause any duplicate word queries. Cimate become climat and change become chang.
+#%% md
+## Vectorization
+
+The words now need to be converted back into numbers so they can be fed into various big data algorithms.
+#%%
+def vectorizeList(stemmedList, ngramRangeStart, ngramRangeEnd):
+
+    cv = CountVectorizer(binary=True, ngram_range= (ngramRangeStart, ngramRangeEnd))
+    cv.fit(stemmedList)
+    X = cv.transform(stemmedList)
+
+    return X, cv.vocabulary_
+#%%
+vectorizedTweets, vectorDictionary = vectorizeList(stemmedLi, 1, 1)
+#%%
+print(f"Sample sentence #1:\n{stemmedLi[1]}")
+print(f"Sample sentence #2:\n{stemmedLi[2]}")
+#%%
+print(f"\nAfter Vectorization:\n{vectorizedTweets[1]}")
+#%%
+vectorizedTweets.shape
+#%% md
+## N-Grams Method
+
+By using the N-Grams method, we can group N numbers of words together and analyze their frequencies for the specific sentiement rating.
+#%%
+def createWordDictionary(wordDf, sentimentScore, n_size):
+
+    resultDf = wordDf[(wordDf['sentiment'] == sentimentScore)]
+
+    sentences = [sentence.split() for sentence in resultDf['transformedTweets']]
+    wordArray = []
+
+    for i in range(0, len(sentences)):
+        wordArray += sentences[i]
+
+    counterList = Counter(ngrams(wordArray, n_size)).most_common(80)
+
+    counterDf = pd.DataFrame()
+
+    delimiter = ' '
+    print(f"\n***N-Gram (Sentiment : {sentimentScore})")
+    for i in range(0, len(counterList)):
+        counterDict = {
+            "N-Gram" : delimiter.join(counterList[i][0]),
+            "Occurences" : counterList[i][1]
+        }
+
+            #convvert dict to series before concating to the DataFrame
+        counterDict = pd.DataFrame(counterDict, index = [0])
+        counterDf = pd.concat([counterDf, counterDict], ignore_index=True)
+
+    return counterDf
+#%%
+#BI GRAMS
+SIZE = 2
+#tranformed tweets columns will now need to be added to the original dataset with the stemmed data
+df['transformedTweets' ] = stemmedLi
+dfSub = df[['sentiment', 'transformedTweets']]
+#%%
+### TOP 20 Occurrences of Bi-Grams of Anti Climate Change Tweets (-1)
+counterDfAntiTop = createWordDictionary(dfSub, -1, SIZE)
+counterDfAntiTop = counterDfAntiTop.head(20)
+print(counterDfAntiTop)
+
+sns.set(font_scale = 1.3)
+plt.figure(figsize= (20,8))
+plt.title('Top 20 Occurences of Bi-Grams of Anti Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfAntiTop , palette= 'flare')
+#%% md
+We can see that "man-made" was common within a lot of the anti climate change tweets along with retweeting a link to a presumed anti climate change article. Many of the tweets are retweets from Steve Goddard and Donald Trump who notoriously spread misinformation in regard to climate change.
+#%%
+### TOP 20 Occurrences of Bi-Grams of Neutral Climate Change Tweets (-1)
+counterDfNeutralTop = createWordDictionary(dfSub, 0, SIZE)
+counterDfNeutralTop = counterDfNeutralTop.head(20)
+print(counterDfNeutralTop)
+
+sns.set(font_scale=1.3)
+plt.figure(figsize=(20, 8))
+plt.title('Top 20 Occurences of Bi-Grams of Neutral Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfNeutralTop , palette= 'magma')
+#%% md
+We are finding that with the N-Size = 2 there it is difficult to discern the relationships between the sentiments and the words within the tweets, if we uop the n_gram size to 3 we may see more defined patterns within the tweets.
+#%%
+SIZE = 3
+
+### TOP 20 Occurrences of Bi-Grams of Anti Climate Change Tweets (-1)
+counterDfAntiTop = createWordDictionary(dfSub, -1, SIZE)
+counterDfAntiTop = counterDfAntiTop.head(20)
+print(counterDfAntiTop)
+
+sns.set(font_scale = 1.3)
+plt.figure(figsize= (20,8))
+plt.title('Top 20 Occurences of Bi-Grams of Anti Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfAntiTop , palette= 'flare')
+#%% md
+
+#%%
+### TOP 20 Occurrences of Bi-Grams of Neutral Climate Change Tweets (-1)
+counterDfNeutralTop = createWordDictionary(dfSub, 0, SIZE)
+counterDfNeutralTop = counterDfNeutralTop.head(20)
+print(counterDfNeutralTop)
+
+sns.set(font_scale=1.3)
+plt.figure(figsize=(20, 8))
+plt.title('Top 20 Occurences of Bi-Grams of Neutral Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfNeutralTop , palette= 'magma')
+#%% md
+A distinct difference can be seen between the tweets against climate change and neutral for climate change. For anti climate change tweets its commonly found that tweets have the phrases "man climate change" and "manmade climate change". For neutral on climate change we see tweets with the phrases "cause global warming" and "believe climate change".
+#%%
+### TOP 20 Occurrences of Bi-Grams of Positive Climate Change Tweets (-1)
+counterDfPositiveTop = createWordDictionary(dfSub, 1, SIZE)
+counterDfPositiveTop = counterDfPositiveTop.head(20)
+print(counterDfPositiveTop)
+
+sns.set(font_scale=1.3)
+plt.figure(figsize=(20, 8))
+plt.title('Top 20 Occurences of Bi-Grams of Neutral Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfPositiveTop , palette= 'viridis')
+#%%
+### TOP 20 Occurrences of Bi-Grams of News-Worthy Climate Change Tweets (-1)
+counterDfNewsTop = createWordDictionary(dfSub, 2, SIZE)
+counterDfNewsTop = counterDfNewsTop.head(20)
+print(counterDfNewsTop)
+
+sns.set(font_scale=1.3)
+plt.figure(figsize=(20, 8))
+plt.title('Top 20 Occurences of Bi-Grams of Neutral Climate Change Tweets')
+sns.set_style('darkgrid')
+sns.barplot(x = 'Occurences', y = 'N-Gram', data= counterDfNewsTop, palette= 'crest')
+#%% md
+## Build Functions for Model Testing and Evaluation
+#%%
+def evaluateModel(model, X_test, y_test, title):
+
+    print("\n***" + title + "***")
+
+    predictions = model.predict(X_test)
+    accuracy = metrics.accuracy_score(y_test, predictions)
+    recall = metrics.recall_score(y_test, predictions, average = 'weighted')
+    precision = metrics.precision_score(y_test, predictions, average= 'weighted')
+    f1 = metrics.f1_score(y_test, predictions, average= 'weighted')
+
+    clsScoreDict = {
+        'accuracy' :accuracy,
+        'recall' : recall,
+        'precision':precision,
+        'f1 score': f1
+    }
+
+    print('Accuracy: ' + str(accuracy))
+    print('Recall: ' + str(recall))
+    print('Precision: ' + str(precision))
+    print('F1: ' + str(f1))
+
+    return clsScoreDict
+#%%
+def modelPrediciton(X, target, model):
+
+    modelType = model.__class__.__name__
+
+    X_train, X_test, y_train, y_test = train_test_split(X, target, train_size =0.75)
+
+    classificationModel = model.fit(X_train, y_train)
+    clsScoreDict = evaluateModel(classificationModel, X_test, y_test, modelType)
+
+    y_prediction = model.predict(X_test)
+
+    return X_test, y_test, y_prediction, clsScoreDict
+#%%
+def formattedConfusionMat(y_test, y_predicted):
+
+    cm = metrics.confusion_matrix(y_test.values, y_predicted)
+    print(cm)
+
+    Index = ['ACTUAL: -1','ACTUAL: 0','ACTUAL: 1','ACTUAL: 2']
+    Columns = ['PREDICTED: -1','PREDICTED: 0','PREDICTED: 1','PREDICTED: 2' ]
+
+    df = pd.DataFrame(cm,index= Index, columns = Columns)
+    plt.figure(figsize=(4,4))
+
+    ax = sns.heatmap(df, cmap = 'Greens', annot= True, fmt = 'g')
+    bottom, top = ax.get_ylim()
+    ax.set(title = 'Tweet Review Sentiment Analysis')
+    ax.set_ylim(bottom+0.5, top -0.5)
+    ax.set_xticks(ax.get_xticklabels(), rotation = 0, horizontalaliginment = 'right')
+    ax.set_yticks(ax.get_yticklabels(), rotation = 0, horizontalaliginment = 'right')
+#%% md
+## Testing Classification Models on Training Data
+
+### Logistic Regression
+
+#%%
+model = LogisticRegression()
+
+X_test, y_test, y_predicted, lrScoreDict = modelPrediciton(vectorizedTweets, df['sentiment'], model)
+formattedConfusionMat(y_test, y_predicted)
+#%% md
+### Decision Tree
+#%%
+model = DecisionTreeClassifier()
+
+X_test, y_test, y_predicted, dtScoreDict = modelPrediciton(vectorizedTweets, df['sentiment'], model)
+formattedConfusionMat(y_test, y_predicted)
+#%% md
+### K-Nearest Neighbors
+#%%
+model = KNeighborsClassifier()
+
+X_test, y_test, y_predicted, knnScoreDict = modelPrediciton(vectorizedTweets, df['sentiment'], model)
+formattedConfusionMat(y_test, y_predicted)
+#%% md
+## Create Binary File for Export
+#%%
+def modelPrediciton(X, target, model):
+
+    modelType = model.__class__.__name__
+
+    X_train, X_test, y_train, y_test = train_test_split(X, target, train_size =0.75)
+
+    classificationModel = model.fit(X_train, y_train)
+
+    # save model to a pickle file
+    # create directory for models
+    if (not path.exists("./model")):
+        makedirs('./model')
+    pickle.dump(classificationModel, open(f"./model/climate_change_tweet_sentiment_{modelType}.dat", "wb"))
+
+    # load model
+    loadedModel = pickle.load(open(f"./model/climate_change_tweet_sentiment_{modelType}.dat", "rb"))
+
+    clsScoreDict = evaluateModel(loadedModel, X_test, y_test, modelType)
+
+    y_prediction = model.predict(X_test)
+
+    return X_test, y_test, y_prediction, clsScoreDict
+#%%
