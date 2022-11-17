@@ -35,17 +35,28 @@ __________________________________________
 
 Liver Cirrhosis . An adverse impact of excessive alcohol consumption can be the development of Liver Cirrhosis. Having had family members who have been diagnosed with liver cirrhosis following decades of unhealthy levels of alcohol consumptioon, I believe that liver cirrhosis needs to be diagnosed as early as possible. 
 
-This predictive model takes into account various features regarding the body and outputs a prediction for the patient's current stage of cirrhosis development.
+This predictive model uses a random forest algorithm and takes the feature variables listed below and outputs a prediction for the patient's current stage of cirrhosis development.
 
-| Feature Variable | Description | Average Values | 
-| --- | --- | --- |
-| `N-Days` | List all *new or modified* files | |
-| `Status` |  |
-| `Drug` |  |
-| `Sex` | Male or Female |  |
-| `Ascites` | |  |
-| `Hepatomegaly` | |  |
-| `Spiders` | |  |
+| Featured Variables| Description of Correlation to LC |
+| --- | --- | 
+| `N-Days` | Number of Days between Regestration and Analysis |
+| `Status` | Status of Patient (Death (D), Censored (C,CL)) | 
+| `Drug` | D-penicillamine (D.p) or Placebo (P) |
+| `Sex` | Male or Female | 
+| `Ascites` | Presence of Fluid Buildup in Abdomen (Y/N) | 
+| `Hepatomegaly` | Liver Enlarged (Y/N) |  
+| `Spiders` | Prescense of Visual Spidering on Liver Tissue (Y/N) | 
+| `Edema` | Presence of Fluid Buildup in Legs (Y/N)|  
+| `Blirubin` | Increased Levels in Blood (mg/dl) |  
+| `Cholestrol` | Decreased Levels in blood (mg/dl) |  
+| `Albumin` | Decreased Levels in Blood (g/dl) |  
+| `Copper` | Increased Levels in Urine (ug/day) |  
+| `Alk_Phos` | Increased Levels of Alklaline Phosphotase in Liver Tissue (U/L) |  
+| `SGOT` | >2 High indication of LC Development (U/mL) |  
+| `Tryglicerides` | Increased Levels of ALT/ATS (mg/dl) |  
+| `Platelets` | Decreased Levels of Platelet Count (mL/1000) |  
+| `Prothrombin` | Time of Prothrombin (s)  |  
+| `Stage` | Stage of Cirrhosis Development (1,2,3,4) // 4 being Cirrhosis |  
 
 __________________________________________
 
