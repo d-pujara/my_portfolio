@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liver Fibrosis Development Stage Predicction Tool</title>
+</head>
+
+<body>
+
+    <h1>Liver Fibrosis Development Stage Prediction</h1>
+
+    <h2>To perform prediction patient must have doctor's examination and a blood test performed.</h2>
+
+    <h3>Enter the given values in the italicized text. This prediction model will only accept numbers.</h3>
+
+    <form method = 'post' action = '/predict'> 
+
+        {% if result %}
+
+            <p>{{ result }}</p>
+
+        {% endif %}
+
+        <label>Status</label><br>
+        <p><i></i></p>
+        <input type = 'text' name = 'Status'> <br><br>
+
+        <label>Drug</label><br>
+        <p><i>If Patient was given D-Penicillamine = 0 | Placebo = 1</i></p>
+        <input type = 'text' name = 'Drug'> <br><br>
+
+        <label>Age</label><br>
+        <p><i>Enter Patient's Age (Example: 59.0)</i></p>
+        <input type = 'text' name = 'Age'> <br><br>
+
+        <label>Sex</label><br>
+        <p><i>Females = 1 | Males = 0</i></p>
+        <input type = 'text' name = 'Sex'> <br><br>
+
+        <label>Ascites</label><br>
+        <p><i>Presense of Ascites (Enlarged Gut) = 1 | No Ascites = 0</i></p>
+        <input type = 'text' name = 'Ascites'> <br><br>
+
+        <label>Hepatomegaly</label><br>
+        <p><i>Enlarged Liver Yes = 1 | No = 0</i></p>
+        <input type = 'text' name = 'Hepatomegaly'> <br><br>
+
+        <label>Spiders</label><br>
+        <p><i>Presense of Spiders on Skin Yes = 1 | No = 0</i></p>
+        <input type = 'text' name = 'Spiders'> <br><br>
+
+        <label>Edema</label><br>
+        <p><i>Presence of Edema Yes (Edema Despite Diuretic Therapy) = 1, S (Edema Present w/o Diuretics -OR- Edema Resolved by Diuretics) = -1, or No (No Edema -AND- No Diuretic Therapy) = 0 </i></p>
+        <input type = 'text' name = 'Edema'> <br><br>
+
+        <label>Bilirubin</label><br>
+        <p><i>Measured in Blood Test (Range: 0.8-28 mg/dl)  </i></p>
+        <input type = 'text' name = 'Bilirubin'> <br><br>
+
+        <label>Cholesterol</label><br>
+        <p><i>Measured in Blood Test (Range: 120-1775 mg/dl) </i></p>
+        <input type = 'text' name = 'Cholesterol'> <br><br>
+
+        <label>Albumin</label><br>
+        <p><i>Measured in Blood Test (Range: 1.90-4.70 g/dl) </i></p>
+        <input type = 'text' name = 'Albumin'> <br><br>
+
+        <label>Copper</label><br>
+        <p><i>Measured in Blood Test (Range: 4-588 ug/day) </i></p>
+        <input type = 'text' name = 'Copper'> <br><br>
+
+        <label>Alk_Pos</label><br>
+        <p><i>Measured in Blood Test as ALP (Alkaline Phosphatase) (Range: 250-14000 U/L) </i></p>
+        <input type = 'text' name = 'Alk_Pos'> <br><br>
+
+        <label>SGOT</label><br>
+        <p><i>Measured in Blood Test (Range: 25-500 U/mL) </i></p>
+        <input type = 'text' name = 'SGOT'> <br><br>
+
+        <label>Tryglcierides</label><br>
+        <p><i>Measured in Blood Test (Range: 30-600 mg/dl) </i></p>
+        <input type = 'text' name = 'Tryglcierides'> <br><br>
+
+        <label>Platelets</label><br>
+        <p><i>Measured in Blood Test (Range: 50-750 mL/1000)</i></p>
+        <input type = 'text' name = 'Platelets'> <br><br>
+
+        <label>Prothrombin</label><br>
+        <p><i> Time of Prothrombin in (s) (Range: 5-20 s)</i></p>
+        <input type = 'text' name = 'Prothrombin'> <br><br>
+
+        <input type = 'submit' name = 'Predict Stage of Liver Fibrosis Development'>
+
+        
+   </form>
+</body>
+
+</html>
